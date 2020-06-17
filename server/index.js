@@ -15,9 +15,9 @@ db.connect();
 const seed = async (force = false) => {
     if (force) {
         await db.query(`
-        DROP TABLE IF EXISTS link_tags;
-        DROP TABLE IF EXISTS tags;
-        DROP TABLE IF EXISTS links;
+            DROP TABLE IF EXISTS link_tags;
+            DROP TABLE IF EXISTS tags;
+            DROP TABLE IF EXISTS links;
         `);
     }
 

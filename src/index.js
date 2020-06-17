@@ -11,9 +11,9 @@ const App = () => {
             setLinks(res.data.links);
             console.log('Set Links!!!');
             })
-            .catch((e) => {
+            .catch((error) => {
             console.error('Failed to fetch links.');
-            throw e;
+            throw error;
             });
 }, []);
 
