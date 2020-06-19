@@ -53,11 +53,11 @@ async function createTables() {
     };
 };
 
-async function buildDB() {
+async function buildDB(force) {
     try {
-        console.log(client);
-        client.connect();
-        await dropTables();
+        if (force) {
+            await dropTables();
+        }
         await createTables();
     } catch (error) {
         console.log("Error during rebuildDB");
@@ -65,6 +65,7 @@ async function buildDB() {
     };
 };
 
+//** need to build out */
 async function testDB() {
 
 };
@@ -73,3 +74,7 @@ async function testDB() {
 //     .then(testDB)
 //     .catch(console.error)
 //     .finally(() => client.end()); 
+
+module.exports = {
+    buildDB
+}

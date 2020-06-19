@@ -4,20 +4,18 @@ const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 const server = express();
-//*****IS THIS THE CORRECT WAY TO GET TO THE FOLDER I'M TRYIN TO REACH?*****/
-const client = require('../../src/db/client');
-client.connect();
 
-server.listen(PORT, () => {
-    console.log(chalk.orange(`Server is listening on PORT: ${PORT}`))
-});
-
-server.use(express.json());
-//*****THIS TOO!!!*****/
-server.use(express.static(path.join(__dirname, '../../public')));
-
+const apiRouter = require('./api/index.js');
 const morgan = require('morgan');
+const { buildDB } = require('./db/seed.js');
+
 server.use(morgan('dev'));
+
+//*****THIS TOO!!!*****/
+server.use(express.static(path.join(__dirname, '../public')));
+server.use(express.json());
+
+
 
 server.use((req, res, next) => {
     console.log("<----Body Logger START---->");
@@ -27,5 +25,15 @@ server.use((req, res, next) => {
     next();
 });
 
-const apiRouter = require('../api');
+
 server.use('/api', apiRouter);
+buildDB().then(() => {
+    server.listen(PORT, () => {
+        console.log(chalk.green(`Server is listening on PORT: ${PORT}`))
+    });
+})
+    .catch((error) => {
+        console.log(chalk.red("error", error))
+    });
+
+
