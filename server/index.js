@@ -7,14 +7,15 @@ const server = express();
 
 const apiRouter = require('./api/index.js');
 const morgan = require('morgan');
-const { buildDB } = require('./db/seed.js');
+const bodyParser = require('body-parser');
+const { buildDB, testDB } = require('./db/seed.js');
 
 server.use(morgan('dev'));
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({extended: true}));
 
-//*****THIS TOO!!!*****/
 server.use(express.static(path.join(__dirname, '../public')));
 server.use(express.json());
-
 
 
 server.use((req, res, next) => {
@@ -27,7 +28,9 @@ server.use((req, res, next) => {
 
 
 server.use('/api', apiRouter);
-buildDB().then(() => {
+buildDB(true)
+    .then(testDB)
+    .then(() => {
     server.listen(PORT, () => {
         console.log(chalk.green(`Server is listening on PORT: ${PORT}`))
     });
