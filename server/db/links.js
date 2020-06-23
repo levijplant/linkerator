@@ -1,29 +1,36 @@
 const client = require('./client');
-const { createTags, addTagsToLink } = require('./tags');
+const { createTags, addTagsToLink, getTagsByLinkId } = require('./tags');
+const { createLinkTag } = require('./link_tags');
 
-async function createLink(url, comment, date, tags = []) {
+async function createLink( name, url, comment) {
     try {
         let { rows: [ link ] } = await client.query(`
-                INSERT INTO links (url, comment, date)
+                INSERT INTO links (name, url, comment)
                 VALUES ($1, $2, $3)
                 ON CONFLICT (url) DO NOTHING
                 RETURNING *;
-            `, [ url, comment, date ]);
+            `, [ name, url, comment ]);
 
-            if (link === undefined) {
-                throw new Error("Link already exists. Try update instead.");
-            }
+        if (link === undefined) {
+            throw new Error("Link already exists. Try update instead.");
+        };
 
-            console.log("LINK: ", link);
-            
-            return link;
-        } catch (error) {
+        console.log("LINK: ", link);
+
+        return link;
+    } catch (error) {
         throw error;
     };
 };
 
 async function updateLink(urlId, fields = {}) {
-    const { tags } = fields;
+    const {
+        comment, 
+        count,
+        tags = []
+    } = fields;
+
+    console.log(fields);
     delete fields.tags;
 
     const setString = Object.keys(fields).map(
@@ -103,22 +110,37 @@ async function getLinkById(urlId) {
             WHERE link_tags."urlId"=$1;
         `, [ urlId ]);
         
-        // const { rows: [ author ] } = await client.query(`
-        //     SELECT id, username, name, location, active
-        //     FROM users
-        //     WHERE id=$1;
-        // `, [ link.authorId ]);
-
         link.tags = tags;
-        // link.author = author;
-
-        // delete link.authorId;
 
         return link; 
     } catch (error) {
         throw error;
     };
 };
+
+// async function getLinkByName(linkName) {
+//     try {
+//         console.log(linkName);
+
+//         const { rows: [ link ] } = await client.query(`
+//             SELECT *
+//             FROM links
+//             WHERE name=$1;
+//         `, [ linkName ]);
+
+//         if (!link) {
+//             throw {
+//                 name: "LinkNotFoundError",
+//                 message: "Could not find a link with that name!"
+//             };
+//         };
+        
+//         return link; 
+//     } catch (error) {
+//         console.error(error)
+//         throw error;
+//     };
+// };
 
 async function getLinksByTagName(tagName) {
     try {
@@ -145,9 +167,9 @@ async function getAllLinks() {
             FROM links;
         `);
 
-        // const links = await Promise.all(linkIds.map(
-        //     link => getLinkById( link.id )
-        // ));
+        for (let link of links) {
+            link.tags = await getTagsByLinkId(link.id);
+        };
 
         return links;
     } catch (error) {
@@ -160,6 +182,7 @@ module.exports = {
     updateLink,
     deleteLink,
     getLinkById,
+    // getLinkByName,
     getLinksByTagName,
     getAllLinks,
 };

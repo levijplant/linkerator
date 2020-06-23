@@ -1,6 +1,6 @@
 linkTagsRouter = require('express').Router();
 
-const { getlinkTagById } = require('../db');
+const { getLinkTagById } = require('../db');
 
 linkTagsRouter.use((req, res, next) => {
     console.log("A request is being made to /link_tags");
@@ -19,11 +19,11 @@ linkTagsRouter.delete('/:linkTagId', async (req, res, next) => {
         AND link_tags.id = $1;
     `, [ linkTagId ]);
 
-        const linkTag = await getlinkTagById(linkTagId);
+        const linkTag = await getLinkTagById(linkTagId);
 
         if (linkTag) {
             await deleteLinkTag(linkTagId);
-            res.send('Tag has been deleted from link!');
+            res.send(`Tag ${ link_tag } has been deleted from link!`);
         };
 
     } catch ({ name, message }) {

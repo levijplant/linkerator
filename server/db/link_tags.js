@@ -5,7 +5,7 @@ async function createLinkTag(urlId, tagId) {
         await client.query(`
             INSERT INTO link_tags("urlId", "tagId")
             VALUES ($1, $2)
-            ON CONFLICT ("urlId", "tagId") DO NOTHING;
+            RETURNING *;
         `, [ urlId, tagId ]);
     } catch (error) {
         throw error;
@@ -23,7 +23,7 @@ async function deleteLinkTag(id) {
     };
 };
 
-async function getlinkTagById(linkTagId) {
+async function getLinkTagById(linkTagId) {
     try {
         const { rows: [ link_tag ] } = await client.query(`
             SELECT *
@@ -40,5 +40,5 @@ async function getlinkTagById(linkTagId) {
 module.exports = {
     createLinkTag,
     deleteLinkTag,
-    getlinkTagById,
+    getLinkTagById,
 };

@@ -1,5 +1,6 @@
 const client = require('./client');
 const { getLinkById } = require('./links');
+const { createLinkTag } = require('./link_tags');
 
 async function createTags(tagList) {
     if (tagList.length === 0) {
@@ -74,6 +75,22 @@ async function getTagByName(name) {
     };
 };
 
+async function getTagsByLinkId (urlId) {
+
+    try {
+        const { rows: tags } = await client.query(`
+        SELECT *
+        FROM tags
+        JOIN link_tags ON link_tags."tagId"=tags.id
+        WHERE link_tags."urlId"=$1
+    `, [ urlId ]);
+
+        return tags;
+    } catch(error) {
+        throw error;
+    };
+};
+
 async function getAllTags() {
     try {
         const { rows: tags } = await client.query(`
@@ -92,5 +109,6 @@ module.exports = {
     addTagsToLink,
     getTagById,
     getTagByName,
+    getTagsByLinkId,
     getAllTags,
 };

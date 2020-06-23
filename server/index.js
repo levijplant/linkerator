@@ -33,8 +33,8 @@ buildDB(true)
     .then(() => {
     server.listen(PORT, () => {
         console.log(chalk.green(`Server is listening on PORT: ${PORT}`))
-    });
-})
+        });
+    })
     .catch((error) => {
         console.log(chalk.red("error", error))
     });
