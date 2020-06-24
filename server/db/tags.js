@@ -41,7 +41,6 @@ async function addTagsToLink(urlId, tagList) {
 
         await Promise.all(createLinkTagPromises);
 
-        return await getLinkById(urlId);
     } catch (error) {
         throw error;
     };

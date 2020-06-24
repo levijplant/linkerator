@@ -15,21 +15,14 @@ async function createLink( name, url, comment) {
             throw new Error("Link already exists. Try update instead.");
         };
 
-        console.log("LINK: ", link);
-
         return link;
     } catch (error) {
         throw error;
     };
 };
 
-async function updateLink(urlId, fields = {}) {
-    const {
-        comment, 
-        count,
-        tags = []
-    } = fields;
-
+async function updateLink(urlId, fields = { }) {
+    const { tags } = fields;
     console.log(fields);
     delete fields.tags;
 
@@ -63,27 +56,34 @@ async function updateLink(urlId, fields = {}) {
             AND "urlId"=$1;
         `, [ urlId ]);
 
+        console.log("After DELETE FROM link-tags")
+
         await addTagsToLink(urlId, tagList);
 
         return await getLinkById(urlId);
     } catch (error) {
-    throw error;
+        console.log(error)
+        throw error;
     };
 };
 
 async function deleteLink(id) {
+    console.log(">>>>ID<<<<", id);
     try {
+
+        await client.query(`
+            DELETE FROM link_tags
+            WHERE "urlId"=$1;
+        `, [ id ]);
+
         await client.query(`
             DELETE FROM links
             WHERE id=$1;
         `, [ id ]);
 
-        await client.query(`
-            DELETE FROM link_tags
-            WHERE "urlId"=$1;
-        `, [ id]);
     } catch (error) {
         console.error("Error deleting link!");
+        console.log(error)
         throw error
     };
 };
@@ -182,7 +182,6 @@ module.exports = {
     updateLink,
     deleteLink,
     getLinkById,
-    // getLinkByName,
     getLinksByTagName,
     getAllLinks,
 };

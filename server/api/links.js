@@ -1,6 +1,7 @@
 const { createLink, updateLink, getAllLinks, getLinkById, deleteLink } = require('../db/links');
 const { createTags, getTagsByLinkId } = require('../db/tags');
 const { createLinkTag } = require('../db/link_tags');
+const { SplitChunksPlugin } = require('webpack');
 
 linksRouter = require('express').Router();
 
@@ -76,6 +77,10 @@ linksRouter.patch('/:linkId', async (req, res, next) => {
 
     const updateFields = {};
 
+    if (tags && tags.length > 0) {
+        updateFields.tags = tags;
+    };
+
     if (comment) {
         updateFields.comment = comment;
     };
@@ -84,10 +89,6 @@ linksRouter.patch('/:linkId', async (req, res, next) => {
         updateFields.count = count;
     };
     
-    if (tags) {
-        updateFields.tags = tags;
-    };
-
     try {
         const originalLink = await getLinkById(linkId);
         console.log("Original Link: ", originalLink);
@@ -103,12 +104,12 @@ linksRouter.patch('/:linkId', async (req, res, next) => {
     };
 });
 
-linksRouter.delete('/:linkId', async (req, res, send) => {
+linksRouter.delete('/:linkId', async (req, res, next) => {
     const { linkId } = req.params;
 
     try {
         const link = await getLinkById(linkId);
-        console.log(link)
+        console.log("Link to Delete: ", link)
 
         if (link) {
             await deleteLink(linkId);
@@ -116,9 +117,10 @@ linksRouter.delete('/:linkId', async (req, res, send) => {
             res.send(`${ link.url } has been deleted!`)
         };
     } catch ({ name, message }) {
-        next({ name, message });
+        next({ 
+            name: "DeleteLinkError", 
+            message: "Error deleting the link from database!" });
     };
-
 });
 
 module.exports = linksRouter;

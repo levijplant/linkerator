@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const App = () => {
     const [links, setLinks] = useState([]);
 
@@ -24,4 +26,7 @@ const App = () => {
 
 const app = document.querySelector('#app');
 
-ReactDOM.render(<App />, app);
+ReactDOM.render(
+    <App />, 
+    app
+);

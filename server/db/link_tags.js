@@ -1,10 +1,12 @@
 const client = require('./client');
+const { getLinkById } = require('./links');
 
 async function createLinkTag(urlId, tagId) {
     try {
         await client.query(`
             INSERT INTO link_tags("urlId", "tagId")
             VALUES ($1, $2)
+            ON CONFLICT ("urlId", "tagId") DO NOTHING
             RETURNING *;
         `, [ urlId, tagId ]);
     } catch (error) {
