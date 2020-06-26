@@ -14,7 +14,7 @@ server.use(morgan('dev'));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended: true}));
 
-server.use(express.static(path.join(__dirname, '../public')));
+server.use(express.static(path.join(__dirname, '../build')));
 server.use(express.json());
 
 

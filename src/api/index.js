@@ -1,16 +1,17 @@
-import axios from 'axios';
+// import axios from 'axios';
 
-export async function getLinks () {
-    try {
-        const { data } = await axios.get(`localhost:3000/api/links`);
+// export async function fetchLinks () {
+//     try {
+//         const { data } = await axios.get(`localhost:3000/api/links`);
 
-        links = data.links
+//         console.log(">>>DATA<<<", data)
 
-        return links;
-    } catch (error) {
-        throw error;
-    };
-};
+//         // links = data.links
 
-getLinks()
-    .then(console.log(links))
+//         return data;
+//     } catch (error) {
+//         throw error;
+//     };
+// };
+
+// export default fetchLinks;

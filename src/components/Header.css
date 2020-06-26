@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    font-family: 'Source Code Pro', serif;
+    font-size: 16px;
+    color: lightgray;
+
+    background-color: olivedrab;
+
+    margin: 0;
+    padding: 1.5em;
+}
+
+header h1 {
+    font-size: 2em;
+    font-weight: 400;
+
+    text-shadow: 1px 1px 3px black;
+    padding: 5px;
+}
