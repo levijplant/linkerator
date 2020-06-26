@@ -13,26 +13,41 @@ const App = () => {
     const [links, setLinks] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/links')
+        axios.get('/api/links')
             .then(res => {
             setLinks(res.data.links);
+            console.log("<<<<DATA>>>>>", res.data)
             console.log('Set Links!!!', res.data.links);
             })
-            .then(links.map(link => (
-                <LinkCard></LinkCard>
-            )))
             .catch((error) => {
             console.error('Failed to fetch links.');
             });
 }, []);
 
+    const updateClickCount = (linkId, currentClickCount) => {
+        axios.patch(`/api/links/${linkId}`, {
+            count:currentClickCount + 1
+        }).then(res => {
+            console.log('<<<updateClick>>>', linkId)
+            setLinks(links.map(link => {
+                if (link.id === res.data.link.id) {
+                    return res.data.link;
+                } else {
+                    return link;
+                }
+            }))
+        }) .catch((error) => {
+            console.error('Failed to update count')
+        })
+    }
+
     return (
         <div id="App">
             <Header>
             </Header>
-            <Card>
-            </Card>
-
+           {links.map(link =>{
+               return <LinkCard key={link.id} {...link} updateClickCount = {updateClickCount}/>
+           })}
 
         </div>
     );
