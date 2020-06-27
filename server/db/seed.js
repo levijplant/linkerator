@@ -89,7 +89,7 @@ async function createInitialLinks() {
         const seededLinks = [
             {
                 name: "Google",
-                url: "https://www.google.com",
+                url: "www.google.com",
                 comment: "This is where you need to go if you need any and everything.",
                 tags: [ "search", "knowledge", "everything" ]
 
@@ -97,7 +97,7 @@ async function createInitialLinks() {
 
             { 
                 name: "YouTube",
-                url: "https://www.youtube.com",
+                url: "www.youtube.com",
                 comment: "All kinds of cool videos here.",
                 tags: [ "videos", "fun", "diy" ]
 

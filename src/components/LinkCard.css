@@ -1,0 +1,15 @@
+.link-header {
+    text-align: center;
+    font-style: 1.75rem;
+
+    background-color: olivedrab;
+
+    border: 1px solid black;
+}
+
+.link-list-item {
+    border: 1px solid darkgrey;
+    background-color: whitesmoke;
+    padding: 2.5px;
+    font-size: 1.15rem;
+}

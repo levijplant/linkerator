@@ -1,30 +1,39 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-import axios from 'axios';
 
 import './LinkCard.css';
-
 
 const LinkCard = ({
     name,
     id,
     url,
     comment,
+    tags,
     date,
     count,
     updateClickCount,
 }) => {
+
+    date = new Date(date);
+
     return (
-        <Card style={{ width: '18rem' }}>
-            <Card.Header>{ name }</Card.Header>
+        <Card style={{ width: '50rem', margin: '5px 0' }}>
+            <Card.Header className="link-header">{ name }</Card.Header>
                 <ListGroup variant="flush">
-                    <ListGroup.Item onClick = {() => updateClickCount(id, count)}> { url }</ListGroup.Item>
-                    <ListGroup.Item>{ comment }</ListGroup.Item>
-                    <ListGroup.Item>Link has been clicked { count } time(s) since { date }</ListGroup.Item>
+                    <ListGroup.Item className="link-list-item" onClick = {() => updateClickCount(id, count)}> <a href={ `https://${ url }` } target="_blank">{ url }</a></ListGroup.Item>
+                    <ListGroup.Item className="link-list-item">{ comment }</ListGroup.Item>
+                    <ListGroup.Item className="link-list-item">{ tags ? 
+                        tags.map(tag => {
+                            return tag.name;
+                        }).join(", ") 
+                        : 
+                        ""
+                        }</ListGroup.Item>                    
+                        <ListGroup.Item className="link-list-item">Link has been clicked { count } time(s) since { `${ date.getMonth() + 1 }/${ date.getDate() }/${ date.getFullYear() }` }</ListGroup.Item>
                 </ListGroup>
             </Card>
-    );
+    )
 };
 
 export default LinkCard;
