@@ -90,7 +90,7 @@ async function createInitialLinks() {
             {
                 name: "Google",
                 url: "www.google.com",
-                comment: "This is where you need to go if you need any and everything.",
+                comment: "Still the best search engine. This is where you go for any and everything.",
                 tags: [ "search", "knowledge", "everything" ]
 
             },

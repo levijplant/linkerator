@@ -12,6 +12,7 @@ import {
 const App = () => {
     const [links, setLinks] = useState([]);
     const [show, setShow] = useState(false);
+    const [filteredLinks, setFilteredLinks] = useState([]);
 
 
     useEffect(() => {
@@ -43,12 +44,14 @@ const App = () => {
         });
     };
 
-    const createLink = (name, url, comment, tags, count, date) => {
+    const createLink = ({name, url, comment, tags, count, date}) => {
+        console.log("createLink being called!!!!")
         axios.post(`/api/links` , {
             name, url, comment, tags, count, date
         })
         .then(res => {
-            setLinks([ ...links, res.data ])
+            console.log("NEW LINK!!!", res.data);
+            setLinks([ ...links, res.data.link ])
         })
             .catch((error) => {
                 console.error("Failed to create new link!", error)
@@ -57,7 +60,9 @@ const App = () => {
 
     return (
         <>
-            <Header 
+            <Header
+            // mostPopular={ mostPopular }
+            // leastPopular={ leastPopular }
             setShow={ setShow } />
                 {links.map(link =>{
                     return <LinkCard key={link.id} {...link}

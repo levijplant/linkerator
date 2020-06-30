@@ -1,9 +1,10 @@
 .link-header {
     text-align: center;
-    font-style: 1.75rem;
+    font-style: 1.65rem;
+    color: lightgray;
+    text-shadow: 1px 1px 3px black;
 
     background-color: olivedrab;
-
     border: 1px solid black;
 }
 
@@ -11,5 +12,20 @@
     border: 1px solid darkgrey;
     background-color: whitesmoke;
     padding: 2.5px;
-    font-size: 1.15rem;
+    font-size: 1.05rem;
+}
+
+.link-list-item:last-of-type {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.update-button {
+    height: 1.75rem;
+    font-size: .75rem;
+    background-color: darkgrey;
+    border: 1px solid black;
+    color: black;
 }

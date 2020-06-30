@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
-import ModalHeader from 'react-bootstrap/ModalHeader';
-import ModalTitle from 'react-bootstrap/ModalTitle';
-import ModalBody from 'react-bootstrap/ModalBody';
-import ModalFooter from 'react-bootstrap/ModalFooter';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
+
+import './CreateModal.css';
 
 
 const CreateModal = ({
@@ -23,7 +21,7 @@ const CreateModal = ({
     return (
         <>
             <Modal show={ show } onHide={ handleClose }>
-                <Modal.Header closeButton>
+                <Modal.Header className="modal-header" closeButton>
                     <Modal.Title>Create a New Link</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -48,7 +46,11 @@ const CreateModal = ({
                     <Button variant="secondary" onClick={ handleClose }>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => createLink(name, url, comment, tags), handleClose }>
+                    <Button variant="primary" onClick={() => {
+                                                createLink({name, url, comment, tags});
+                                                handleClose();
+                    }
+                    }>
                         Create Link
                     </Button>
                 </Modal.Footer>

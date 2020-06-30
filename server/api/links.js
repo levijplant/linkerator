@@ -26,28 +26,13 @@ linksRouter.get('/', async (req, res, next) => {
     }
 });
 
-// linksRouter.get('/:linkName', async (req, res, next) => {
-//     try {
-//         const linkName = req.params;
-//         const link = await getLinkByName(linkName);
-
-//         for (let link of links) {
-//             link.tags = await getTagsByLinkId(link.id);
-//         };
-
-//         console.log("Link: ", link);
-//         res.send({ link });
-//     } catch (error) {
-//         throw error;
-//     }
-// });
-
 linksRouter.post('/', async (req, res, next) => {
     try {
         const { name, url, comment, date, count, tags = [] } = req.body;
+        const tagArr = tags.trim().toLowerCase().split(/\s+/);
         
         const link = await createLink(name, url, comment, date, count);
-        const tagList = await createTags(tags);
+        const tagList = await createTags(tagArr);
         
         await Promise.all(tagList.map(tag => {
             const link_tag = createLinkTag(link.id, tag.id);
@@ -58,7 +43,7 @@ linksRouter.post('/', async (req, res, next) => {
         link.tags = tagList;
 
         if (link) {
-            res.send(`New link "${ link.url }" has been created!`);
+            res.send({ link });
         } else {
             next({
                 name: "AddLinkError",
