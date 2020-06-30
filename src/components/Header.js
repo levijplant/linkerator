@@ -46,7 +46,7 @@ const Header = ({
                         </Form.Group>
                     </Form>
                 <form>
-                    <Button variant="primary" onClick={ handleShow }>
+                    <Button className="create-link-button" variant="primary" onClick={ handleShow }>
                         Create Link
                     </Button>
                 </form>
