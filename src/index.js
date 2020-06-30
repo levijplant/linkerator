@@ -12,7 +12,7 @@ import {
 const App = () => {
     const [links, setLinks] = useState([]);
     const [show, setShow] = useState(false);
-    const [filteredLinks, setFilteredLinks] = useState([]);
+    const [mostClicked, setMostClicked ] = useState(true);
 
 
     useEffect(() => {
@@ -58,11 +58,25 @@ const App = () => {
             });
     };
 
+    const mostPopular = (links) => {
+        links.sort((a, b) => (a.count < b.count) ? 1 : -1);
+    };
+
+    const leastPopular = (links) => {
+        links.sort((a, b) => (a.count > b.count) ? 1 : -1);
+    };
+
+    if (mostClicked) {
+        mostPopular(links);
+    }  else {
+        leastPopular(links);
+    }
+
     return (
         <>
             <Header
-            // mostPopular={ mostPopular }
-            // leastPopular={ leastPopular }
+            mostClicked={ mostClicked }
+            setMostClicked={ setMostClicked }
             setShow={ setShow } />
                 {links.map(link =>{
                     return <LinkCard key={link.id} {...link}
@@ -82,3 +96,4 @@ ReactDOM.render(
     <App />, 
     app
 );
+

@@ -28,7 +28,7 @@ server.use((req, res, next) => {
 
 
 server.use('/api', apiRouter);
-buildDB(true)
+buildDB(false)
     .then(testDB)
     .then(() => {
     server.listen(PORT, () => {

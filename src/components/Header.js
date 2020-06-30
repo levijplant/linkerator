@@ -11,7 +11,9 @@ import './Header.css';
 const Header = ({
     links,
     SearchBar,
-    setShow
+    setShow,
+    mostClicked,
+    setMostClicked
 }) => {
     const [filteredLinks, setFilteredLinks] = useState();
 
@@ -19,15 +21,7 @@ const Header = ({
 
     });
 
-    const mostPopular = () => {
-        const popLinks = links.sort((a, b) => (a.count > b.count) ? 1 : -1).reverse();
-        setFilteredLinks(popLinks);
-    };
 
-    const leastPopular = () => {
-        const unpopLinks = links.sort((a, b) => (a.count > b.count) ? 1 : -1);
-        setFilteredLinks(unpopLinks);
-    };
 
     const handleShow = () => setShow(true);
 
@@ -38,10 +32,17 @@ const Header = ({
                     <Form>
                         <Form.Group controlId="exampleForm.SelectCustom">
                             <Form.Label>Sort Links: </Form.Label>
-                            <Form.Control as="select" custom>
-                                <option>[select]</option>
-                                <option onChange= { mostPopular } key="popular">Most Popular</option>
-                                <option onChange={ leastPopular } key="unpopular" value="unpopular">Least Popular</option>
+                            <Form.Control as="select" custom value= { mostClicked ? "most" : "least" } onChange= { (event) => { 
+                                console.log("<<< SORT>>>>>>", event.target.value)
+                                if (event.target.value === "most"){
+                                    setMostClicked(true)
+                                }  else {
+                                     setMostClicked(false)
+                                }
+                              }
+                            }>
+                                <option value="most" key="popular">Most Popular</option>
+                                <option value="least" key="unpopular">Least Popular</option>
                             </Form.Control>
                         </Form.Group>
                     </Form>
