@@ -37,9 +37,9 @@ const Header = ({
                                 if (event.target.value === "most"){
                                     setMostClicked(true)
                                 }  else {
-                                     setMostClicked(false)
+                                    setMostClicked(false)
                                 }
-                              }
+                            }
                             }>
                                 <option value="most" key="popular">Most Popular</option>
                                 <option value="least" key="unpopular">Least Popular</option>
